@@ -35,7 +35,7 @@ const BookSlicer = createSlice({
 					author: "Dale Cargne",
 					availability: "rare",
 					price: 200,
-					genre: "Real Life",
+					genre: "Fiction",
 					img: "https://images.pexels.com/photos/1314584/pexels-photo-1314584.jpeg?auto=compress&cs=tinysrgb&w=400",
 					stocks: 10,
 				},
@@ -48,7 +48,7 @@ const BookSlicer = createSlice({
 					author: "Marnus Labuchhane",
 					availability: "rare",
 					price: 300,
-					genre: "drama",
+					genre: "Drama",
 					img: "https://images.pexels.com/photos/1314584/pexels-photo-1314584.jpeg?auto=compress&cs=tinysrgb&w=400",
 					stocks: 10,
 				},
@@ -69,7 +69,7 @@ const BookSlicer = createSlice({
 			autoBiography: [
 				{
 					type: "Hot",
-					ISBN: "233333004",
+					ISBN: "aa-nnn-dddd-zzzzz-sss",
 					title: "Priyanka Jonas Chopra",
 					author: "Priyanka Chopra",
 					availability: "rare",
