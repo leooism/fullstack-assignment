@@ -1,6 +1,6 @@
 type ButtonPropsType = {
 	text: string;
-	buttonClickHandler: () => void;
+	buttonClickHandler?: () => void;
 	style: React.HTMLProps<HTMLElement>["className"];
 	disabled?: boolean;
 };

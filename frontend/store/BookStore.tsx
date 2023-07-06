@@ -2,7 +2,7 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
 
 type BookCategoryType = string;
-type CartBookType = {
+export type CartBookType = {
 	quantity: number;
 	totalPrice: number;
 } & shopBookCardPropsType;
@@ -85,21 +85,30 @@ const BookSlicer = createSlice({
 });
 
 type UserStoreType = {
-	username: string | undefined;
-	email: string | undefined;
-	profileImage: string | undefined;
+	userDetail: {
+		username: string | undefined;
+		email: string | undefined;
+		profileImage: string | undefined;
+		isLoggedIn: boolean;
+	};
 	cart: Array<CartBookType>;
 };
 const User = createSlice({
 	name: "User",
 	initialState: {
-		username: undefined,
-		email: undefined,
-		profileImage: undefined,
+		userDetail: {
+			username: undefined,
+			email: undefined,
+			profileImage: undefined,
+			isLoggedIn: false,
+		},
 		cart: [] as Array<CartBookType>,
 	} as UserStoreType,
 	reducers: {
-		login(store, payload) {
+		login(store, action: PayloadAction<{ email: string; password: string }>) {
+			const { email, password } = action.payload;
+			store.userDetail.email = email;
+			store.userDetail.username = password;
 			return store;
 		},
 		signup(store, payload) {
@@ -185,3 +194,4 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const selectBook = (state: RootState) => state.Books.books;
 export const selectCartBook = (state: RootState) => state.user.cart;
+export const user = (state: RootState) => state.user.userDetail;

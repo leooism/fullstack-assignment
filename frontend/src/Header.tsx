@@ -8,6 +8,7 @@ import Avatar from "./UI/Avatar";
 import { useState } from "react";
 import Cart from "./Cart";
 import { selectCartBook } from "../store/BookStore";
+import { useNavigate } from "react-router-dom";
 type HeaderPropsType = {
 	loggedInStatus: boolean;
 };
@@ -15,7 +16,7 @@ const Header = ({ loggedInStatus }: HeaderPropsType) => {
 	const [showCart, setShowCart] = useState(false);
 	const showCartHandler = (): void => setShowCart((prev) => !prev);
 	const cartBook = useSelector(selectCartBook);
-
+	const navigate = useNavigate();
 	return (
 		<div className="flex w-full items-center  justify-between  gap-2 sticky top-0 left-0 z-50 bg-white  border  shadow-2xl">
 			<div className={"flex flex-col justify-center w-fit  px-4"}>
@@ -40,17 +41,17 @@ const Header = ({ loggedInStatus }: HeaderPropsType) => {
 				<div className="flex gap-2">
 					<Button
 						text="Log In"
-						style="text-sm hover:bg-gradient-to-l from-red-500 to-blue-500 hover:text-white "
+						style="p-2 text-sm hover:bg-gradient-to-l from-red-500 to-blue-500 hover:text-white "
 						buttonClickHandler={() => {
-							console.log("hi");
+							navigate("/login");
 						}}
 					/>
 
 					<Button
 						text="Sign Up"
-						style="text-sm bg-gradient-to-r from-green-500 to-yellow-500 text-white"
+						style="p-2 text-sm bg-gradient-to-r from-green-500 to-yellow-500 text-white"
 						buttonClickHandler={() => {
-							console.log("hi");
+							navigate("/signup");
 						}}
 					/>
 				</div>

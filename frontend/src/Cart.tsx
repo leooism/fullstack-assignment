@@ -2,16 +2,17 @@ import Button from "./UI/Button";
 import CartListItem from "./CartListItem";
 import { selectCartBook } from "../store/BookStore";
 import { useSelector } from "react-redux";
+import type { CartBookType } from "../store/BookStore";
+import calculateTotalAmount from "../util/getTotalAmount";
+import { useNavigate } from "react-router-dom";
+
 type CartPropsType = {
 	handleShowCart: () => void;
 };
 
-function calculateTotalAmount(arr: any): number {
-	return arr.reduce((acc: number, item: any) => acc + item.totalPrice, 0);
-}
 const Cart = (props: CartPropsType) => {
 	const cartBook = useSelector(selectCartBook);
-
+	const navigate = useNavigate();
 	return (
 		<div className="absolute flex bg-zinc-50 left-[-100%] mt-4 flex-col justify-center gap-2 shadow-lg p-2 rounded-lg ">
 			<div className="flex flex-col gap-2 max-h-40 overflow-y-scroll scrollbar-hide ">
@@ -28,7 +29,7 @@ const Cart = (props: CartPropsType) => {
 								key={i}
 							/>
 						))}
-						<h1>Total: ${calculateTotalAmount(cartBook)}</h1>
+						<h1>Total: ${calculateTotalAmount<CartBookType>(cartBook)}</h1>
 					</>
 				) : (
 					<h1 className="text-sm">
@@ -46,7 +47,7 @@ const Cart = (props: CartPropsType) => {
 				<Button
 					text="Checkout"
 					buttonClickHandler={() => {
-						console.log("first");
+						navigate("/checkout");
 					}}
 					style="p-1 bg-[#F8CD0F] text-white text-sm"
 					disabled={cartBook.length === 0 ? true : false}
