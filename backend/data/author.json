@@ -1,0 +1,86 @@
+[
+	{
+		"f_name": "J.K.",
+		"l_name": "Rowling",
+		"author_image": "https://example.com/jk_rowling.jpg",
+		"email": "jkrowling@example.com"
+	},
+	{
+		"f_name": "Stephen",
+		"l_name": "King",
+		"author_image": "https://example.com/stephen_king.jpg",
+		"email": "stephenking@example.com"
+	},
+	{
+		"f_name": "Dan",
+		"l_name": "Brown",
+		"author_image": "https://example.com/dan_brown.jpg",
+		"email": "danbrown@example.com"
+	},
+	{
+		"f_name": "George",
+		"l_name": "R.R.",
+		"author_image": "https://example.com/george_martin.jpg",
+		"email": "georgemartin@example.com"
+	},
+	{
+		"f_name": "Agatha",
+		"l_name": "Christie",
+		"author_image": "https://example.com/agatha_christie.jpg",
+		"email": "agathachristie@example.com"
+	},
+	{
+		"f_name": "Colson Whitehead",
+		"l_name": "Whitehead",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Colson_Whitehead_2016.jpg/220px-Colson_Whitehead_2016.jpg",
+		"email": "colsonwhitehead@undergroundrailroad.me"
+	},
+	{
+		"f_name": "Jenny Offill",
+		"l_name": "Offill",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Jenny_Offill_2012.jpg/220px-Jenny_Offill_2012.jpg",
+		"email": "jennyoffil@Dept.of_Speculation.me"
+	},
+	{
+		"f_name": "George Saunders",
+		"l_name": "Saunders",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/George_Saunders_2013.jpg/220px-George_Saunders_2013.jpg",
+		"email": "georgesaunders@Lincoln_in_the_Bardo.me"
+	},
+	{
+		"f_name": "Tayari Jones",
+		"l_name": "Jones",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Tayari_Jones_2018.jpg/220px-Tayari_Jones_2018.jpg",
+		"email": "tayarijones@An_American_marriage.me"
+	},
+	{
+		"f_name": "Lauren Groff",
+		"l_name": "Groff",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Lauren_Groff.jpg/220px-Lauren_Groff.jpg",
+		"email": "laurengroff@Fates_and_Furies.me"
+	},
+	{
+		"f_name": "Tommy Orange",
+		"l_name": "Orange",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Tommy_Orange_%282018%29.jpg/220px-Tommy_Orange_%282018%29.jpg",
+		"email": "tommyorange@There_There.me"
+	},
+	{
+		"f_name": "Ta-Nehisi Coates",
+		"l_name": "Coates",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ta-Nehisi_Coates_2017.jpg/220px-Ta-Nehisi_Coates_2017.jpg",
+		"email": "tanehisicoates@Between_the_Worlds.me"
+	},
+	{
+		"f_name": "Jacqueline Woodson",
+		"l_name": "Woodson",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Jacqueline_Woodson_2018.jpg/220px-Jacqueline_Woodson_2018.jpg",
+		"email": "jacquelinewoodson@Brown_Girl_Dreams.me"
+	},
+	{
+		"f_name": "Sally Rooney",
+		"l_name": "Rooney",
+		"author_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Sally_Rooney_2019.jpg/220px-Sally_Rooney_2019.jpg",
+		"email": "sallyrooney@Normal_People.me"
+	}
+]

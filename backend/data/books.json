@@ -1,0 +1,54 @@
+[
+	{
+		"id": "0c9d4d75-7926-443e-8618-ed96edb51d01",
+		"title": "The Lord of the Rings",
+		"price": 19.99,
+		"description": "The Lord of the Rings is an epic high fantasy trilogy written by English philologist and University of Oxford professor J. R. R. Tolkien. The story began as a sequel to Tolkien's 1937 fantasy",
+		"isbn": "9780545010199",
+		"genre": "Fantasy",
+		"book_img": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/The_Lord_of_the_Rings.jpg/220px-The_Lord_of_the_Rings.jpg",
+		"author_id": null,
+		"publication_date": "1954-07-29T00:00:00.000Z",
+		"availability": true,
+		"ratings": 4.5
+	},
+	{
+		"id": "7a870cc6-1232-4631-a637-8da019f1358d",
+		"title": "Harry Potter and the Sorcerer's Stone",
+		"price": 19.99,
+		"description": "Harry Potter and the Sorcerer's Stone is a fantasy novel written by British author J. K. Rowling. The first novel in the Harry Potter series, it follows the orphaned Harry Potter's first year",
+		"isbn": "9780545582889",
+		"genre": "Fantasy",
+		"book_img": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/Harry_Potter_and_the_Sorcerer%27s_Stone_cover.jpg/220px-Harry_Potter_and_the_Sorcerer%27s_Stone_cover.jpg",
+		"author_id": null,
+		"publication_date": "1997-06-26T00:00:00.000Z",
+		"availability": true,
+		"ratings": 4.5
+	},
+	{
+		"id": "ea9c0192-5e48-4a8d-97dd-2a68d87e8a25",
+		"title": "The Hitchhiker's Guide to the Galaxy",
+		"price": 12.99,
+		"description": "The Hitchhiker's Guide to the Galaxy is a comedy science fiction series created by Douglas Adams. The series follows the adventures of Arthur Dent, following the destruction of the Earth by t",
+		"isbn": "9780345409266",
+		"genre": "Science Fiction",
+		"book_img": "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Hitchhikers_guide_to_the_galaxy.jpg/220px-Hitchhikers_guide_to_the_galaxy.jpg",
+		"author_id": null,
+		"publication_date": "1979-04-12T00:00:00.000Z",
+		"availability": true,
+		"ratings": 4.4
+	},
+	{
+		"id": "fcebc975-8240-43bb-8366-e3009fae7195",
+		"title": "The Hunger Games",
+		"price": 15.99,
+		"description": "The Hunger Games is a dystopian novel by the American author Suzanne Collins. It is the first novel in The Hunger Games trilogy. The story is set in a dystopian future in which children are f",
+		"isbn": "9780316216957",
+		"genre": "Dystopian Fiction",
+		"book_img": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/The_Cave_-_Hunger_Games_fanart_-_Cor-Sa.jpg/640px-The_Cave_-_Hunger_Games_fanart_-_Cor-Sa.jpg",
+		"author_id": null,
+		"publication_date": "2008-01-19T18:15:00.000Z",
+		"availability": true,
+		"ratings": 4.5
+	}
+]

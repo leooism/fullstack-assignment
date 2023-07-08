@@ -12,46 +12,111 @@ datasource db {
 
 
 model Book {
-  id String @id @default(uuid())
-  type String
-  stocks Int
+  id String @id @default (uuid())
   title String
-  author String
   price Float
-  img String
-  availability String
+  description String
+  isbn String
+  genre String
+  book_img String
+  author_id String?
+  author Author? @relation(fields: [author_id], references: [id])
+  publication_date DateTime
+  availability Boolean
+  ratings Float
+  publisher_id String?
+  publisher Publisher? @relation(fields: [publisher_id], references: [id])
+  // distributors BookDistributers
+  @@unique([title, isbn])
+  reviews Reviews[]
 }
 
-model ShoppingCart {
+model Author {
   id String @id @default(uuid())
-  user_id Int
-  created_at DateTime @default(now())
-}
-model User {
-  id Int @id @default(autoincrement())
+  f_name String
+  l_name String
+  author_image String
+  books Book[]
   email String @unique
-  name String?
+  @@unique([f_name, l_name])
+
+}
+
+
+model Reviews {
+  id String @id @default(uuid())
+  book_id String
+  review_text String
+  book Book @relation(fields: [book_id], references: [id])
+}
+
+
+model Publisher {
+  id String @id @default(uuid())
+  published_books Book[]
+  address String
+  name String
+  publisher_logo String
+}
+
+
+// model BookDistributers {
+//   id String @id @default(uuid())
+//   publisher_id String
+//   stocks Int
+//   books Books[]
+// }
+
+// model User {
+//   id String @id @default(uuid())
+//   email String @unique
+//   name String
+
+//   isAdmin Boolean
+//   profileImage String
+//   shoppingCart ShoppingCart? 
+//   orderedItem Order?
   
-}
-model ShoppingCartItem {
-  id String @id @default(uuid())
-  shopping_cart_id String
-  book_id String
-  quantity Int
-}
+// }
 
-model Order {
-  id String @id @default(uuid())
-  user_id Int
-  shipping_address String
-  payment_method String
-  status String
-  created_at DateTime @default(now())
-}
 
-model OrderItem {
-  id String @id @default(uuid())
-  order_id String
-  book_id String
-  quantity Int
-}
+
+// model ShoppingCart {
+//   id String @id @default(uuid())
+//   created_at DateTime @default(now())
+//   user_id String @unique
+//   user User @relation(fields: [user_id], references: [id])
+//   cartItem ShoppingCartItem[]
+
+
+
+  
+// }
+
+// model ShoppingCartItem {
+//   id String @id @default(uuid())
+//   shopping_cart_id String
+//   Cart ShoppingCart @relation(fields: [shopping_cart_id], references: [id])
+//   book_id String
+//   quantity Int
+// }
+
+// model Order {
+//   id String @id @default(uuid())
+//   user_id String @unique
+//   shipping_address String
+//   payment_method String
+//   status String
+//   created_at DateTime @default(now())
+//   user User @relation(fields: [user_id], references: [id])
+
+
+// }
+
+// model OrderItem {
+//   id String @id @default(uuid())
+//   order_id String
+//   book_id String
+//   quantity Int
+// }
+
