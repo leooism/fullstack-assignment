@@ -13,10 +13,10 @@ datasource db {
 
 model Book {
   id String @id @default (uuid())
-  title String
+  title String @unique
   price Float
   description String
-  isbn String
+  isbn String @unique
   genre String
   book_img String
   author_id String?
@@ -48,6 +48,8 @@ model Reviews {
   book_id String
   review_text String
   book Book @relation(fields: [book_id], references: [id])
+  user_id String
+  user User? @relation(fields: [user_id], references: [id])
 }
 
 
@@ -67,17 +69,23 @@ model Publisher {
 //   books Books[]
 // }
 
-// model User {
-//   id String @id @default(uuid())
-//   email String @unique
-//   name String
-
-//   isAdmin Boolean
-//   profileImage String
-//   shoppingCart ShoppingCart? 
-//   orderedItem Order?
+model User {
+  id String @id @default(uuid())
+  profileImage String
+  email String @unique
+  password String
+  confirmPassword String?
+  f_name String
+  l_name String
+  bookReviews Reviews[]
+  passwordChangedAt DateTime?
+  role Roles @default(USER)
   
-// }
+}
+enum Roles {
+  USER
+  ADMIN
+}
 
 
 

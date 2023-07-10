@@ -1,15 +1,14 @@
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../app");
 const AppError = require("../utils/AppError");
-const prisma = new PrismaClient();
 module.export = prisma;
 
 const catchAsync = (fn) => (req, res, next) =>
 	fn(req, res, next).catch((err) => next(err));
 
-const getAllBook = catchAsync(async (req, res) => {
+const getAllBook = catchAsync(async (req, res, next) => {
 	let queryObject = { ...req.query };
+	console.log(req.query.searchString);
 	//Converting req.queury to meaningful objects for filtering
-
 	["sort", "page", "fields", "limit"].forEach((dat) => delete queryObject[dat]);
 	queryObject = Object.entries(queryObject).map((dat) => {
 		if (dat[0] === "price" && typeof dat[1] === "object") {
@@ -38,18 +37,15 @@ const getAllBook = catchAsync(async (req, res) => {
 	let sortBy = [];
 	if (req.query.sort) {
 		const sortByTitle = req.query.sort.split(",");
-
 		sortBy = sortByTitle.map((title) => {
-			const dividerIndex = title.split("").findIndex((el) => el === "-");
-			const method = title.slice(0, dividerIndex);
-			const sortByTitle = title.slice(dividerIndex + 1, title.length);
+			const splitedString = title.split("-");
 
-			return { [sortByTitle]: method };
+			return { [splitedString[1]]: splitedString[0] };
 		});
 	}
+
 	let page, limit;
 	if (req.query.page && req.query.limit) {
-		console.log("first");
 		page = +req.query.page
 			? (+req.query.page - 1) * +req.query.limit
 			: undefined;
@@ -65,6 +61,7 @@ const getAllBook = catchAsync(async (req, res) => {
 		include: {
 			author: true,
 		},
+
 		skip: page,
 		take: limit,
 	});
@@ -95,7 +92,7 @@ const getBook = catchAsync(async (req, res, next) => {
 	const book = await prisma.book.findUniqueOrThrow({
 		where: { id: id },
 	});
-	if (!book) return next(new AppError("No book found", 204));
+
 	res.status(200).json({
 		status: "Sucess",
 		data: { ...book },
@@ -105,16 +102,6 @@ const getBook = catchAsync(async (req, res, next) => {
 const addBook = catchAsync(async (req, res, next) => {
 	//Check every field is non empty
 
-	const isBookAlreadyExist = await prisma.book.findUnique({
-		where: {
-			title_isbn: {
-				isbn: req.body.isbn,
-				title: req.body.title,
-			},
-		},
-	});
-
-	if (isBookAlreadyExist) return next(new AppError("Book Already exist"));
 	const data = await prisma.book.create({
 		data: {
 			title: req.body.title,
@@ -126,17 +113,6 @@ const addBook = catchAsync(async (req, res, next) => {
 			publication_date: req.body.publication_date,
 			availability: req.body.availability,
 			ratings: req.body.ratings,
-			author: {
-				create: {
-					f_name: req.body.author.f_name,
-					l_name: req.body.author.l_name,
-					author_image: req.body.author.author_image,
-					email: req.body.author.email,
-				},
-			},
-		},
-		include: {
-			author: true,
 		},
 	});
 
@@ -152,6 +128,7 @@ const deleteBook = catchAsync(async (req, res, next) => {
 		where: { id: id },
 		include: { author: true },
 	});
+
 	if (!deleteBook) next(new AppError("No match witih this current id", 204));
 
 	return res.status(200).json({
@@ -164,6 +141,7 @@ const updateBook = catchAsync(async (req, res, next) => {
 	const isUserExist = await prisma.book.findUnique({
 		where: { id: id },
 	});
+	console.log(isUserExist);
 	if (!isUserExist.id) return next(new AppError("No user with this id", 204));
 	const updatedBook = await prisma.book.update({
 		where: { id: id },
