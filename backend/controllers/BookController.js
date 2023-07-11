@@ -1,16 +1,15 @@
-const prisma = require("../app");
+const prisma = require("../prisma/prisma");
 const AppError = require("../utils/AppError");
-module.export = prisma;
 
 const catchAsync = (fn) => (req, res, next) =>
 	fn(req, res, next).catch((err) => next(err));
 
 const getAllBook = catchAsync(async (req, res, next) => {
 	let queryObject = { ...req.query };
-	console.log(req.query.searchString);
 	//Converting req.queury to meaningful objects for filtering
 	["sort", "page", "fields", "limit"].forEach((dat) => delete queryObject[dat]);
 	queryObject = Object.entries(queryObject).map((dat) => {
+		//Check if price exist and price includes {gt | gte | lt | lte: some value}
 		if (dat[0] === "price" && typeof dat[1] === "object") {
 			return {
 				[dat[0]]: {
@@ -19,9 +18,11 @@ const getAllBook = catchAsync(async (req, res, next) => {
 				},
 			};
 		}
+
 		if (dat[0] === "isbn") {
 			return { [dat[0]]: dat[1] };
 		}
+
 		if (dat[0] === "title") {
 			return {
 				[dat[0]]: {
@@ -35,21 +36,14 @@ const getAllBook = catchAsync(async (req, res, next) => {
 	});
 
 	let sortBy = [];
+
+	//Sort by the pattern? asc-price, desc-price
 	if (req.query.sort) {
 		const sortByTitle = req.query.sort.split(",");
 		sortBy = sortByTitle.map((title) => {
 			const splitedString = title.split("-");
-
 			return { [splitedString[1]]: splitedString[0] };
 		});
-	}
-
-	let page, limit;
-	if (req.query.page && req.query.limit) {
-		page = +req.query.page
-			? (+req.query.page - 1) * +req.query.limit
-			: undefined;
-		limit = +req.query.limit;
 	}
 
 	const allBooks = await prisma.book.findMany({
@@ -62,13 +56,16 @@ const getAllBook = catchAsync(async (req, res, next) => {
 			author: true,
 		},
 
-		skip: page,
-		take: limit,
+		skip: +req.query.page
+			? (+req.query.page - 1) * (+req.query.limit || 5)
+			: undefined,
+		take: +req.query.limit || 5,
 	});
 
 	///Aliasing -> top 5 books and so on
 
-	if (allBooks.length === 0) return next(new AppError("No result found", 204));
+	if (allBooks.length === 0) return next(new AppError("No result found", 201));
+
 	return res.json({
 		status: "Ok",
 		results: allBooks.length,
@@ -136,13 +133,11 @@ const deleteBook = catchAsync(async (req, res, next) => {
 		data: deletedBook,
 	});
 });
+
 const updateBook = catchAsync(async (req, res, next) => {
 	const id = req.params.id;
-	const isUserExist = await prisma.book.findUnique({
-		where: { id: id },
-	});
-	console.log(isUserExist);
-	if (!isUserExist.id) return next(new AppError("No user with this id", 204));
+	const isBookExist = await prisma.book.isDataExist("id", id);
+	if (!isUserExist.id) return next(new AppError("No Book with this id", 204));
 	const updatedBook = await prisma.book.update({
 		where: { id: id },
 		data: req.body,
@@ -150,6 +145,7 @@ const updateBook = catchAsync(async (req, res, next) => {
 			author: true,
 		},
 	});
+
 	return res.status(201).json({
 		status: "Ok",
 		message: "Updated sucessfully",

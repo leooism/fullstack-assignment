@@ -15,4 +15,4 @@ Router.get("/books/:id", getBook);
 Router.delete("/books/:id", protect, restrictTo(["admin"]), deleteBook);
 Router.patch("/books/:id", protect, restrictTo(["admin"]), updateBook);
 
-module.exports = { Router };
+module.exports = Router;

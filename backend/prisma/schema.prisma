@@ -26,9 +26,11 @@ model Book {
   ratings Float
   publisher_id String?
   publisher Publisher? @relation(fields: [publisher_id], references: [id])
+  reviews Reviews[]
+  cartItem ShoppingCartItem?
   // distributors BookDistributers
   @@unique([title, isbn])
-  reviews Reviews[]
+  
 }
 
 model Author {
@@ -80,6 +82,11 @@ model User {
   bookReviews Reviews[]
   passwordChangedAt DateTime?
   role Roles @default(USER)
+  passwordResetToken String?
+  passwordExpireTime String?
+  cart_id String @unique
+  cart Cart? @relation(fields: [cart_id], references: [id])
+
   
 }
 enum Roles {
@@ -89,25 +96,25 @@ enum Roles {
 
 
 
-// model ShoppingCart {
-//   id String @id @default(uuid())
-//   created_at DateTime @default(now())
-//   user_id String @unique
-//   user User @relation(fields: [user_id], references: [id])
-//   cartItem ShoppingCartItem[]
+model Cart {
+  id String @id @default(uuid())
+  created_at DateTime @default(now())
+  User User?
+  cartItem ShoppingCartItem[] 
+  quantity Int
+  totalPrice Int
+ }
 
+model ShoppingCartItem {
+  id String @id @default(uuid())
+  book_id String @unique
+  cart_id String
+  quantity Int
+  totalPrice Int
+  book Book @relation(fields: [book_id], references: [id])
+  cart Cart @relation(fields: [cart_id], references: [id])
+}
 
-
-  
-// }
-
-// model ShoppingCartItem {
-//   id String @id @default(uuid())
-//   shopping_cart_id String
-//   Cart ShoppingCart @relation(fields: [shopping_cart_id], references: [id])
-//   book_id String
-//   quantity Int
-// }
 
 // model Order {
 //   id String @id @default(uuid())
