@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import TextStylize from "../util/TextStylize";
+import TextStylize from "../../util/TextStylize";
 
 import carousel from "./CarouselData";
 const BookSlider = () => {

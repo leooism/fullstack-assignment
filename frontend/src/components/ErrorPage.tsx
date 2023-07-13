@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 import { useNavigate } from "react-router-dom";
 const ErrorPage = () => {
 	const navigate = useNavigate();

@@ -1,9 +1,9 @@
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 import CartListItem from "./CartListItem";
-import { selectCartBook } from "../store/BookStore";
+import { selectCartBook } from "../../store/BookStore";
 import { useSelector } from "react-redux";
-import type { CartBookType } from "../store/BookStore";
-import calculateTotalAmount from "../util/getTotalAmount";
+import type { CartBookType } from "../../store/BookStore";
+import calculateTotalAmount from "../../util/getTotalAmount";
 import { useNavigate } from "react-router-dom";
 
 type CartPropsType = {
@@ -14,7 +14,7 @@ const Cart = (props: CartPropsType) => {
 	const cartBook = useSelector(selectCartBook);
 	const navigate = useNavigate();
 	return (
-		<div className="absolute flex bg-zinc-50 left-[-100%] mt-4 flex-col justify-center gap-2 shadow-lg p-2 rounded-lg ">
+		<div className="absolute w-72 flex bg-zinc-50 left-[-260%] top-10 mt-4 flex-col justify-center gap-2 shadow-lg p-2 rounded-lg ">
 			<div className="flex flex-col gap-2 max-h-40 overflow-y-scroll scrollbar-hide ">
 				{cartBook.length > 0 ? (
 					<>

@@ -1,6 +1,6 @@
-import L1 from "./assets/reading-list.svg";
-import L2 from "./assets/reading.svg";
-import L3 from "./assets/studying.svg";
+import L1 from "../assets/reading-list.svg";
+import L2 from "../assets/reading.svg";
+import L3 from "../assets/studying.svg";
 
 const CarouselData = [
 	{

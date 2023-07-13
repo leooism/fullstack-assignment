@@ -1,9 +1,9 @@
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 import { BsFacebook, BsGithub, BsLinkedin } from "react-icons/bs";
 
 const Footer = () => {
 	return (
-		<div className="flex flex-col bg-gray-800 h-80 w-full">
+		<div className="flex flex-col bg-gray-800 h-80 w-full justify-center">
 			<div className="flex justify-around">
 				<div className="p-2 flex flex-col gap-2 items-center">
 					<h1 className="text-xl text-white">Contact Us</h1>

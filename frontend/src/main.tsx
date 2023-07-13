@@ -4,32 +4,59 @@ import App from "./App.tsx";
 import { Provider } from "react-redux";
 import store from "../store/BookStore.tsx";
 import "./index.css";
-import ErrorPage from "./ErrorPage";
+import ErrorPage from "./components/ErrorPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Checkout from "./Checkout";
+import CheckoutPage from "./components/Checkout";
 import PageLayout from "./layout/PageLayout.tsx";
-import LoginForm from "./Login.tsx";
+import LoginForm from "./components/Login.tsx";
+import BookPage from "./components/BookPage.tsx";
+import AdminLogin from "./components/AdminLogin.tsx";
+import AdminLayout from "./components/AdminLayout.tsx";
+import Signup from "./components/Signup";
+import Admin from "./components/Admin.tsx";
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <PageLayout />,
-		errorElement: <ErrorPage />,
 
 		children: [
-			{ path: "/", element: <App /> },
+			{ index: true, element: <App /> },
 			{
 				path: "/checkout",
-				element: <Checkout />,
+				element: <CheckoutPage />,
 			},
 			{
 				path: "/book/:bookId",
-				element: <h1>Hola!</h1>,
+				element: <BookPage />,
+			},
+			{
+				path: "/login",
+				element: <LoginForm />,
+			},
+			{
+				path: "/signup",
+				element: <Signup />,
+			},
+		],
+	},
+
+	{
+		path: "/fullstack-assignment",
+		element: <AdminLayout />,
+		children: [
+			{
+				path: "admin",
+				element: <Admin />,
+			},
+			{
+				path: "login",
+				element: <AdminLogin />,
 			},
 		],
 	},
 	{
-		path: "/login",
-		element: <LoginForm />,
+		path: "*",
+		element: <ErrorPage />,
 	},
 ]);
 

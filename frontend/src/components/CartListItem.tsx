@@ -1,6 +1,6 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { decrementItem, incrementItem } from "../store/BookStore";
+import { decrementItem, incrementItem } from "../../store/BookStore";
 
 import { TiDelete } from "react-icons/ti";
 type CartListItemPropsType = {
@@ -21,7 +21,7 @@ const CartListItem = (props: CartListItemPropsType) => {
 		dispatch(decrementItem(props.ISBN));
 	};
 	return (
-		<div className="flex flex-col justify-between items-center gap-2 border p-2 rounded-lg">
+		<div className="flex flex-col justify-between gap-2 border p-2 rounded-lg">
 			<div className="flex justify-between items-center gap-2">
 				<img src={props.img} className="w-10 h-10 shadow-lg rounded-lg " />
 				<p className="text-[10px] w-3/4 flex flex-col ">
