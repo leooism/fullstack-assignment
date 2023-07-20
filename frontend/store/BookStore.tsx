@@ -6,12 +6,15 @@ import UserSlicer from "./UserSlicer";
 type BookCategoryType = string;
 import { shopBookCardPropsType } from "../src/components/ShopBookCard";
 export type CartBookType = {
+	id: string;
 	quantity: number;
 	totalPrice: number;
 } & shopBookCardPropsType;
 
 export type Book = {
+	id: string;
 	genre: string;
+	ratings: number;
 	type: BookCategoryType;
 } & shopBookCardPropsType;
 

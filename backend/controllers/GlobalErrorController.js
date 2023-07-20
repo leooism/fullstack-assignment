@@ -17,6 +17,7 @@ const uniqueConstraintViolation = (error) => {
 
 const handleTokenExipredError = () => new AppError("Token exipred", 401);
 const handleJWTError = () => new AppError("Invalid token", 401);
+
 const sendErrorDev = (err, req, res) => {
 	console.log(err);
 	return res.status(err.statusCode).json({
@@ -70,8 +71,8 @@ module.exports = (err, req, res, next) => {
 			err = handleTokenExipredError();
 		}
 		if (err.name === "JsonWebTokenError") {
+			err = handleJWTError();
 		}
-		err = handleJWTError();
 
 		sendErrorProd(err, req, res);
 	}

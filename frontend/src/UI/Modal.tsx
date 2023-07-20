@@ -24,7 +24,7 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 			)}
 
 			{ReactDOM.createPortal(
-				<div className="absolute top-[50vh] left-[50vw] z-50 -translate-x-1/2 -translate-y-1/2 ">
+				<div className="absolute top-[50vh] left-[50vw] z-50 -translate-x-1/2 -translate-y-1/2  ">
 					<div className="bg-white shadow-xl rounded-xl w-96 flex-col flex justify-center p-3">
 						<h1 className="text-gray-900 font-semibold">Advance Filters</h1>
 						<form

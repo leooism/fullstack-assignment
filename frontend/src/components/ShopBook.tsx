@@ -17,13 +17,14 @@ const ShopBook = () => {
 				{books ? (
 					books.map((book) => (
 						<ShopBookCard
+							id={book.id}
 							title={book.title}
 							price={book.price}
 							ISBN={book.ISBN}
 							author={book.author}
 							availability={book.availability}
 							key={book.ISBN}
-							img="https://images.pexels.com/photos/1314584/pexels-photo-1314584.jpeg?auto=compress&cs=tinysrgb&w=400"
+							img={book.img}
 						/>
 					))
 				) : (

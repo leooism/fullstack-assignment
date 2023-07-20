@@ -8,9 +8,13 @@ const getAllBook = catchAsync(async (req, res, next) => {
 	let queryObject = { ...req.query };
 	//Converting req.queury to meaningful objects for filtering
 	["sort", "page", "fields", "limit"].forEach((dat) => delete queryObject[dat]);
+
 	queryObject = Object.entries(queryObject).map((dat) => {
-		//Check if price exist and price includes {gt | gte | lt | lte: some value}
-		if (dat[0] === "price" && typeof dat[1] === "object") {
+		//Check if query is filtering integer and includes {gt | gte | lt | lte: some value}
+		if (
+			typeof dat[1] === "object" &&
+			("gte" in dat[1] || "gt" in dat[1] || "lte" in dat[1] || "lt" in dat[1])
+		) {
 			return {
 				[dat[0]]: {
 					[Object.keys(dat[1])[0]]:
@@ -19,19 +23,10 @@ const getAllBook = catchAsync(async (req, res, next) => {
 			};
 		}
 
-		if (dat[0] === "isbn") {
-			return { [dat[0]]: dat[1] };
-		}
-
-		if (dat[0] === "title") {
-			return {
-				[dat[0]]: {
-					contains: dat[1],
-				},
-			};
-		}
 		return {
-			[dat[0]]: isNaN(dat[1]) ? dat[1] : +dat[1],
+			[dat[0]]: {
+				contains: dat[1],
+			},
 		};
 	});
 
@@ -39,10 +34,13 @@ const getAllBook = catchAsync(async (req, res, next) => {
 
 	//Sort by the pattern? asc-price, desc-price
 	if (req.query.sort) {
+		//Sort -> -price, price
 		const sortByTitle = req.query.sort.split(",");
 		sortBy = sortByTitle.map((title) => {
 			const splitedString = title.split("-");
-			return { [splitedString[1]]: splitedString[0] };
+			if (splitedString.length === 1)
+				return { [splitedString[0].trim()]: "asc" };
+			return { [splitedString[1].trim()]: "desc" };
 		});
 	}
 
@@ -56,10 +54,10 @@ const getAllBook = catchAsync(async (req, res, next) => {
 			author: true,
 		},
 
-		skip: +req.query.page
-			? (+req.query.page - 1) * (+req.query.limit || 5)
-			: undefined,
-		take: +req.query.limit || 5,
+		// skip: +req.query.page
+		// 	? (+req.query.page - 1) * (+req.query.limit || 5)
+		// 	: undefined,
+		// take: +req.query.limit || 5,
 	});
 
 	///Aliasing -> top 5 books and so on
@@ -110,6 +108,9 @@ const addBook = catchAsync(async (req, res, next) => {
 			publication_date: req.body.publication_date,
 			availability: req.body.availability,
 			ratings: req.body.ratings,
+			author: {
+				create: {},
+			},
 		},
 	});
 

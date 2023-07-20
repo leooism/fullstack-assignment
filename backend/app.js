@@ -3,17 +3,28 @@ const express = require("express");
 const BookRouter = require("./Routes/BookRoute");
 const UserRouter = require("./Routes/UserRoute");
 const cartRouter = require("./Routes/CartRoute");
+
 const GlobalErrorHandler = require("./controllers/GlobalErrorController");
 const AppError = require("./utils/AppError");
-const app = express();
+
+const cookieParser = require("cookie-parser");
+
 const cors = require("cors");
-app.use(cors());
+
+const app = express();
+
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+		credentials: true,
+	})
+);
+
 app.use(express.json());
+app.use(cookieParser());
 
-// .then((data) => console.log(data));
-
-app.use(cartRouter);
 app.use(BookRouter);
+app.use(cartRouter);
 app.use(UserRouter);
 
 app.all("*", (req, res, next) => {

@@ -1,4 +1,4 @@
-const { protect } = require("../controllers/AuthController");
+const { protect, isLoggedIn } = require("../controllers/AuthController");
 const {
 	getAllCartItem,
 	addItemToCart,
@@ -7,8 +7,8 @@ const {
 
 const CartRoute = require("express").Router();
 
-CartRoute.get("/cart", protect, getAllCartItem);
-CartRoute.post("/cart/addItemToCart", protect, addItemToCart);
-CartRoute.post("/cart/updateCartItem/:cartItem", protect, updateCartItem);
+CartRoute.get("/cart", isLoggedIn, getAllCartItem);
+CartRoute.post("/cart/addItemToCart", isLoggedIn, addItemToCart);
+CartRoute.post("/cart/updateCartItem/:cartItem", isLoggedIn, updateCartItem);
 
 module.exports = CartRoute;

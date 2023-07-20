@@ -1,9 +1,10 @@
 const bcrypt = require("bcrypt");
+
 const { PrismaClient } = require("@prisma/client");
+
 const AppError = require("../utils/AppError");
 
 const prisma = new PrismaClient().$extends({
-	name: "Hash method",
 	model: {
 		user: {
 			async signup(
@@ -18,7 +19,9 @@ const prisma = new PrismaClient().$extends({
 				if (confirmPassword !== password) {
 					throw new AppError("Password didn't match", 404);
 				}
+
 				const hashPassword = await bcrypt.hash(password, 10);
+
 				const isUserExist = await prisma.user.isDataExist("email", email);
 				if (isUserExist) throw new AppError("User already exist", 200);
 
@@ -39,33 +42,42 @@ const prisma = new PrismaClient().$extends({
 						},
 					},
 					include: {
-						cart: true,
+						cart: {
+							include: {
+								shoppingCartItem: true,
+							},
+						},
 					},
 				});
 			},
+
 			async login(email, password) {
 				if (email === "" || password === "")
 					throw new AppError("Please provide all the details");
 
 				//check if user exist
-				const user = await prisma.user.findUnique({
+				let user = await prisma.user.findUnique({
 					where: {
 						email: email,
-					},
-					select: {
-						id: true,
-						email: true,
-						password: true,
 					},
 				});
 				if (!user) throw new AppError("No user with this detail", 404);
 
 				const isPasswordCorrect = await bcrypt.compare(password, user.password);
-				console.log(isPasswordCorrect);
 				if (!isPasswordCorrect)
 					throw new AppError("Either password or email is incorrect");
 
-				return user;
+				//Remove least required field from user
+				const modifiedUser = { ...user };
+				[
+					"password",
+					"confirmPassword",
+					"passwordExpireTime",
+					"passwordChangedAt",
+					"passwordResetToken",
+				].forEach((key) => delete modifiedUser[key]);
+
+				return modifiedUser;
 			},
 		},
 		$allModels: {
@@ -83,6 +95,8 @@ const prisma = new PrismaClient().$extends({
 
 	result: {
 		user: {
+			//After user is in password reset, save password ResetTOken and password Expire time
+
 			saveResetToken: {
 				needs: { id: true },
 				compute(user) {
@@ -97,16 +111,24 @@ const prisma = new PrismaClient().$extends({
 					};
 				},
 			},
+
+			/* 
+		
+		* 	//Virtual field
 			// fullname: {
 			// 	needs: { f_name: true, l_name: true },
 			// 	compute(user) {
 			// 		return `${user.f_name} ${user.l_name}`;
 			// 	},
 			// },
+		
+		
+		*/
 			updatePassword: {
 				needs: { id: true },
 				compute(user) {
 					return async () => {
+						//Check if the pssword Reset Token is expired
 						if (+Date.now() > +user.passwordExpireTime)
 							throw new AppError("Token Expired");
 
@@ -126,6 +148,7 @@ const prisma = new PrismaClient().$extends({
 				},
 			},
 		},
+
 		shoppingCartItem: {
 			save: {
 				needs: { id: true },
@@ -144,11 +167,6 @@ const prisma = new PrismaClient().$extends({
 			},
 		},
 	},
-	// result: {
-
-	// 	ShoppingCartItem: {
-
-	// },
 });
 
 module.exports = prisma;

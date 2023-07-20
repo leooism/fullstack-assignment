@@ -1,6 +1,7 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { decrementItem, incrementItem } from "../../store/BookStore";
+import axios from "axios";
 
 import { TiDelete } from "react-icons/ti";
 type CartListItemPropsType = {
@@ -14,11 +15,38 @@ type CartListItemPropsType = {
 
 const CartListItem = (props: CartListItemPropsType) => {
 	const dispatch = useDispatch();
-	const incrementItemQuantity = () => {
-		dispatch(incrementItem(props.ISBN));
+	const incrementItemQuantity = async () => {
+		console.log(props.id);
+		try {
+			await axios.post(
+				`http://localhost:8000/cart/updateCartItem/${props.id}`,
+				{
+					quantity: 1,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			dispatch(incrementItem(props.ISBN));
+		} catch (error) {
+			console.log(error);
+		}
 	};
-	const decrementItemQuantity = () => {
-		dispatch(decrementItem(props.ISBN));
+	const decrementItemQuantity = async () => {
+		try {
+			await axios.post(
+				`http://localhost:8000/cart/updateCartItem/${props.id}`,
+				{
+					quantity: 1,
+				},
+				{
+					withCredentials: true,
+				}
+			);
+			dispatch(decrementItem(props.ISBN));
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	return (
 		<div className="flex flex-col justify-between gap-2 border p-2 rounded-lg">

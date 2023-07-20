@@ -55,6 +55,7 @@ model Reviews {
 }
 
 
+
 model Publisher {
   id String @id @default(uuid())
   published_books Book[]
@@ -99,10 +100,10 @@ enum Roles {
 model Cart {
   id String @id @default(uuid())
   created_at DateTime @default(now())
-  User User?
-  cartItem ShoppingCartItem[] 
   quantity Int
   totalPrice Int
+  cartItem ShoppingCartItem[] 
+  User User?
  }
 
 model ShoppingCartItem {

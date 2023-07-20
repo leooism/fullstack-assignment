@@ -12,6 +12,7 @@ type CartPropsType = {
 
 const Cart = (props: CartPropsType) => {
 	const cartBook = useSelector(selectCartBook);
+	console.log(cartBook);
 	const navigate = useNavigate();
 	return (
 		<div className="absolute w-72 flex bg-zinc-50 left-[-260%] top-10 mt-4 flex-col justify-center gap-2 shadow-lg p-2 rounded-lg ">
@@ -20,6 +21,7 @@ const Cart = (props: CartPropsType) => {
 					<>
 						{cartBook.map((bk, i) => (
 							<CartListItem
+								id={bk.id}
 								bookTitle={bk.title}
 								img={bk.img}
 								quantity={bk.quantity}

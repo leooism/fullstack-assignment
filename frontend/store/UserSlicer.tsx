@@ -63,7 +63,6 @@ const UserSlicer = createSlice({
 			return store;
 		},
 		addItemsToCart(store, action: PayloadAction<Array<CartBookType>>) {
-			console.log(action.payload);
 			store.cart = action.payload;
 			return store;
 		},

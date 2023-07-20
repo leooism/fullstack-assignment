@@ -1,20 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { signupUser } from "../../store/BookStore.tsx";
+import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
+import { BiErrorCircle } from "react-icons/bi";
+
 import { BiLogoFacebookCircle } from "react-icons/bi";
 import Button from "../UI/Button.tsx";
 type errorType = {
-	id: string;
-	code: string;
+	message: string;
 };
 
 const Signup = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		console.log(e);
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (
+			password === "" ||
+			email === "" ||
+			passwordConfirm === "" ||
+			firstName === "" ||
+			lastName === ""
+		)
+			return setError((prev) => [
+				...prev,
+				{ message: "Please fill out all the form" },
+			]);
+		if (password !== passwordConfirm)
+			return setError((prev) => [
+				...prev,
+				{ message: "Password didn't match" },
+			]);
+		if (password.length <= 5)
+			return setError((prev) => [...prev, { message: "Too short password" }]);
+
+		const user = {
+			f_name: firstName,
+			l_name: lastName,
+			email,
+			password,
+			confirmPassword: passwordConfirm,
+			profileImage: "dummy.jpg",
+		};
+		try {
+			const response = await axios.post("http://localhost:8000/signup", user, {
+				withCredentials: true,
+			});
+			const createdUser = await response;
+		} catch (err) {
+			setError((prev) => [...prev, { message: err.response.data.message }]);
+		}
 	};
 	const [error, setError] = useState<errorType[]>([]);
 
@@ -24,6 +62,7 @@ const Signup = () => {
 		}, 4000);
 		return () => clearTimeout(unSubscribeTimeout);
 	}, [error, setError]);
+	//Set error ->
 	return (
 		<>
 			{error.length > 0 &&
@@ -50,8 +89,8 @@ const Signup = () => {
 					onSubmit={handleSubmit}
 				>
 					<h1 className="text-center text-2xl text-gray-900 ">Sign up</h1>
-					<div className=" flex flex-row  gap-2">
-						<div className="flex flex-col w-40">
+					<div className=" flex flex-row  justify-between">
+						<div className="flex flex-col w-36">
 							<label
 								htmlFor="email"
 								className="text-gray-900 mb-2 font-semibold"
@@ -68,7 +107,7 @@ const Signup = () => {
 								onChange={(e) => setFirstName(e.target.value)}
 							/>
 						</div>
-						<div className="flex flex-col w-40">
+						<div className="flex flex-col w-36">
 							<label
 								htmlFor="email"
 								className="text-gray-900 font-semibold mb-2"
@@ -130,8 +169,8 @@ const Signup = () => {
 								name="password"
 								className="p-2 border"
 								id="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								value={passwordConfirm}
+								onChange={(e) => setPasswordConfirm(e.target.value)}
 							/>
 						</div>
 					</div>
@@ -160,7 +199,7 @@ const Signup = () => {
 						</a>
 					</div>
 					<p className="text-center text-gray-700 text-sm ">
-						Already have an account? <a href="#">Login In</a>
+						Already have an account? <a href="#">Log In</a>
 					</p>
 				</form>
 			</div>

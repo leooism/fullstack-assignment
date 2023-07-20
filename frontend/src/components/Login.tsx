@@ -17,12 +17,14 @@ const LoginForm = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState<errorType[]>([]);
-
 	const [loading, setIsLoading] = useState(false);
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		return;
-		if (email.trim().length <= 0 && password.trim().length <= 0) return;
+		if (email.trim().length <= 0 && password.trim().length <= 0)
+			return setError((prev) => [
+				...prev,
+				{ message: "Please fill out all the form" },
+			]);
 		handleLogin();
 	};
 	const [screen, setScreen] = useState("login");
@@ -44,68 +46,59 @@ const LoginForm = () => {
 
 	const handleLogin = async () => {
 		try {
-			if (screen === "login") {
-				setIsLoading(true);
-				axios
-					.post(
-						"http://localhost:8000/user/login",
-						{
-							email: email,
-							password: password,
-						},
-						{
-							withCredentials: true,
-						}
-					)
-					.then(function (response) {
-						const data = {
-							id: response.data.data.id,
-							username: response.data.data["f_name"],
-							profileImage: response.data.data.profileImage,
-							email: response.data.data.email,
-							cart_id: response.data.data.cart_id,
-							role: response.data.data.role,
-						};
-						dispatch(loginUser(data));
-						setIsLoading(false);
-						navigate("/");
-					})
-					.catch(function (error) {
-						setError((er) => [...er, { message: error.response.data.message }]);
-						setIsLoading(false);
-					});
-			}
-			if (screen === "signup") {
-				setIsLoading(true);
-				// const userCredentials = await createUserWithEmailAndPassword(
-				// 	auth,
-				// 	email,
-				// 	password
-				// );
-				// const user = await userCredentials.user;
-				// dispatch(signupUser(user));
-				// setIsLoading(false);
-			}
-		} catch (er: any) {
-			if ("code" in er)
-				setError((p) => {
-					return [...p, { code: er.code, id: er.code.slice(" ")[0] }];
+			setIsLoading(true);
+			axios
+				.post(
+					"http://localhost:8000/user/login",
+					{
+						email: email,
+						password: password,
+					},
+					{
+						withCredentials: true,
+					}
+				)
+				.then(function (response) {
+					const data = {
+						id: response.data.data.id,
+						username: response.data.data["f_name"],
+						profileImage: response.data.data.profileImage,
+						email: response.data.data.email,
+						cart_id: response.data.data.cart_id,
+						role: response.data.data.role,
+					};
+					setIsLoading(false);
+					dispatch(loginUser(data));
+					navigate("/");
+				})
+				.catch(function (error) {
+					setError((er) => [...er, { message: error.response.data.message }]);
+					setIsLoading(false);
 				});
-			setIsLoading(false);
+		} catch (er: any) {
+			setError((p) => {
+				return [...p, { message: er.response.data.message }];
+			});
+			// setIsLoading(false);
 		}
 	};
-	console.log(error);
 
 	const renderItem =
 		screen === "login" ? (
 			<>
-				{loading ? <p className="animate-spin  text-3xl">🔃</p> : <></>}
 				<div className="mx-auto bg-white shadow-2xl  animate-pulse  rounded-md flex  p-4 items-center justify-between w-[50%] md:w-[30%] text-gray-900">
 					<form
 						action="post"
 						className="flex flex-col  justify-center w-full "
 						onSubmit={handleFormSubmit}
 					>
+						{loading ? (
+							<p className="relative left-1/2  animate-ping w-32  text-3xl">
+								🔃
+							</p>
+						) : (
+							<></>
+						)}
 						<h1 className="text-center text-2xl text-gray-900 ">Login</h1>
 						<div className=" flex flex-col">
 							<label

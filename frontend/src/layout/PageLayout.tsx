@@ -11,6 +11,7 @@ import Modal from "../UI/Modal";
 const PageLayout = () => {
 	const userDetail = useSelector(user);
 	const [showModal, setShowModal] = useState(false);
+
 	const showModalHandler = () => {
 		setShowModal((prev) => !prev);
 	};
@@ -25,6 +26,7 @@ const PageLayout = () => {
 				.then(function (response) {
 					const cartItem = response.data[0].cartItem.map((dat: any) => {
 						return {
+							id: dat.book.id,
 							ISBN: dat.book.isbn,
 							author: `${dat.book.author["f_name"]} ${dat.book.author["l_name"]}`,
 							title: dat.book.title,

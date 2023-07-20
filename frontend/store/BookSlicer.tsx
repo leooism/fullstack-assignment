@@ -7,17 +7,9 @@ const BookSlicer = createSlice({
 		books: [] as Book[],
 	},
 	reducers: {
-		addItemToBookStore(store, action) {
-			store.books = action.payload.map((book) => ({
-				title: book.title,
-				ISBN: book.isbn,
-				price: book.price,
-				availability: book.availability,
-				img: book.book_img,
-				genre: book.genre,
-				type: book.type,
-				author: `${book.author["f_name"]} ${book.author["l_name"]}`,
-			}));
+		addItemToBookStore(store, { payload }: PayloadAction<Book[]>) {
+			console.log(payload);
+			store.books = payload;
 			return store;
 		},
 		filterItem(store, action) {
