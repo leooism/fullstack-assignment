@@ -6,9 +6,7 @@ import { useDispatch } from "react-redux";
 import useHttp from "./hooks/use-http";
 import axios from "axios";
 function App() {
-	const { isLoading, error, fetchData } = useHttp(
-		"http://localhost:8000/books"
-	);
+	const { isLoading, error } = useHttp("http://localhost:8000/books");
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -36,9 +34,10 @@ function App() {
 
 	return (
 		<div className="flex  flex-col gap-10  w-11/12 mx-auto">
+			<Hero />
+
 			{isLoading ? <p>Loading</p> : <Shopping />}
 			{error ? <p>error</p> : <></>}
-			<Hero />
 		</div>
 	);
 }

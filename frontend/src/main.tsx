@@ -15,6 +15,7 @@ import AdminLayout from "./components/AdminLayout.tsx";
 import Signup from "./components/Signup";
 import Admin from "./components/Admin.tsx";
 import Protected from "./components/Protected";
+
 const router = createBrowserRouter([
 	{
 		path: "/",

@@ -14,24 +14,22 @@ const PopularBooks = () => {
 			<h1 className="text-2xl text-gray-900">Highly Rated Books</h1>
 			<div
 				ref={divScrollRef}
-				className="flex  py-2 w-full overflow-x-scroll justify-center scrollbar-hide  px-2   gap-2"
+				className="flex  py-2 w-full overflow-x-scroll scrollbar-hide  px-2   gap-2"
 			>
 				{books &&
 					books.map((book) => (
 						<div
-							className="h-60 w-60 rounded-lg bg-white  border-2 border-transparent flex gap-2 flex-col items-center justify-evenly  shadow-2xl   hover:border-2 transition hover:border-gray-400  "
-							key={book.ISBN}
+							className=" flex   flex-col justify-evenly  cursor-pointer w-full h-full  "
+							key={book.id}
+							onClick={() => {
+								navigate(`/author/${book.ISBN}`);
+							}}
 						>
-							<div
-								className=" flex   flex-col justify-evenly  cursor-pointer w-full h-full  "
-								onClick={() => {
-									navigate(`/author/${book.ISBN}`);
-								}}
-							>
+							<div className="w-40  md:w-60  rounded-lg  shadow-xl">
 								<img
 									src={book.img}
-									alt={book.title}
-									className="mx-auto w-full rounded-lg h-full    object-cover "
+									alt={book.author}
+									className="w-full  rounded-lg object-contain"
 								/>
 							</div>
 						</div>

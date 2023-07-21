@@ -8,7 +8,6 @@ const BookSlicer = createSlice({
 	},
 	reducers: {
 		addItemToBookStore(store, { payload }: PayloadAction<Book[]>) {
-			console.log(payload);
 			store.books = payload;
 			return store;
 		},

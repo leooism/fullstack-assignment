@@ -1,4 +1,4 @@
-const Avatar = ({ onClick }: () => void) => {
+const Avatar = ({ onClick }: { onClick: () => void }) => {
 	return (
 		<div
 			className="w-10 h-10 rounded-full shadow-lg flex justify-center"

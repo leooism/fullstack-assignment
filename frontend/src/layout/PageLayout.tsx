@@ -47,16 +47,25 @@ const PageLayout = () => {
 	}, [userDetail.id, dispatch]);
 	return (
 		<>
-			{showModal && <Modal onshowModalHandler={showModalHandler} />}
-			<div className="flex flex-col gap-10">
-				<Header
-					loggedInStatus={userDetail.email ? true : false}
-					onshowModalHandler={showModalHandler}
-				/>
-				<Outlet />
+			{showModal ? (
+				<div className="h-[100vh]">
+					<Modal onshowModalHandler={showModalHandler} />
+					<Header
+						loggedInStatus={userDetail.email ? true : false}
+						onshowModalHandler={showModalHandler}
+					/>
+				</div>
+			) : (
+				<div className="flex flex-col gap-10">
+					<Header
+						loggedInStatus={userDetail.email ? true : false}
+						onshowModalHandler={showModalHandler}
+					/>
+					<Outlet />
 
-				<Footer />
-			</div>
+					<Footer />
+				</div>
+			)}
 		</>
 	);
 };

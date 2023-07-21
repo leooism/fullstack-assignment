@@ -16,7 +16,6 @@ type CartListItemPropsType = {
 const CartListItem = (props: CartListItemPropsType) => {
 	const dispatch = useDispatch();
 	const incrementItemQuantity = async () => {
-		console.log(props.id);
 		try {
 			await axios.post(
 				`http://localhost:8000/cart/updateCartItem/${props.id}`,
@@ -27,6 +26,7 @@ const CartListItem = (props: CartListItemPropsType) => {
 					withCredentials: true,
 				}
 			);
+
 			dispatch(incrementItem(props.ISBN));
 		} catch (error) {
 			console.log(error);

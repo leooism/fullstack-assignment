@@ -1,6 +1,5 @@
 import Logo from "../assets/logo.svg";
 import Button from "../UI/Button";
-import Card from "../UI/Card";
 import { FaSearchengin } from "react-icons/fa6";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiFilterAlt } from "react-icons/bi";
@@ -31,17 +30,19 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 		setInputValue(e.target.value);
 	};
 	const { fetchData } = useHttp("http://localhost:8000/books");
-	const searchInputHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		if (inputValue.trim() === "") return;
-		const data = await fetchData(
-			`http://localhost:8000/books?title=${inputValue}`
-		);
-		if (data) dispatch(addItemToBookStore(data.data.allBooks));
-		setInputValue("");
-	};
+
+	// const searchInputHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+	// 	e.preventDefault();
+	// 	if (inputValue.trim() === "") return;
+	// 	// const data = await fetchData(
+	// 	// 	`http://localhost:8000/books?title=${inputValue}`
+	// 	// );
+	// 	if (data) dispatch(addItemToBookStore(data.data.allBooks));
+	// 	setInputValue("");
+	// };
+
 	return (
-		<div className="flex w-full items-center  justify-between  gap-2 sticky top-0 left-0  z-30 bg-white  border  shadow-2xl">
+		<div className="flex w-full items-center  justify-between  gap-2    z-30 bg-white  border  shadow-2xl">
 			<div
 				className={
 					"flex flex-col  justify-center items-center w-16  md:w-32 px-4"
@@ -60,7 +61,7 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 				<div className=" flex gap-2">
 					<form
 						className=" flex  gap-2 flex-row  items-center border p-2  rounded-lg justify-between"
-						onSubmit={searchInputHandler}
+						// onSubmit={searchInputHandler}
 					>
 						<input
 							value={inputValue}

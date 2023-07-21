@@ -3,7 +3,7 @@ import Button from "../UI/Button";
 const BackDrop = (props: { onshowModalHandler: () => void }) => {
 	return (
 		<div
-			className="w-[100%] h-full bg-gray-300 fixed top-0 left-0 z-40 opacity-60"
+			className="w-[100%] h-[100vh] bg-gray-300 fixed absolute top-0 left-0 z-40 opacity-60"
 			onClick={() => {
 				props.onshowModalHandler();
 			}}
@@ -24,7 +24,7 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 			)}
 
 			{ReactDOM.createPortal(
-				<div className="absolute top-[50vh] left-[50vw] z-50 -translate-x-1/2 -translate-y-1/2  ">
+				<div className="absolute top-[50vh]  left-[50vw] z-50 -translate-x-1/2 -translate-y-1/2  ">
 					<div className="bg-white shadow-xl rounded-xl w-96 flex-col flex justify-center p-3">
 						<h1 className="text-gray-900 font-semibold">Advance Filters</h1>
 						<form

@@ -7,7 +7,7 @@ const TextStylize = (text: string) => {
 		myString += splittedText[i] + " ";
 	}
 	modifiedString.push(
-		<span key={1} className=" text-green-400">
+		<span key={1} className="text-green-400">
 			{myString}
 		</span>
 	);
