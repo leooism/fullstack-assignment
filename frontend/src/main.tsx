@@ -14,7 +14,6 @@ import AdminLogin from "./components/AdminLogin.tsx";
 import AdminLayout from "./components/AdminLayout.tsx";
 import Signup from "./components/Signup";
 import Admin from "./components/Admin.tsx";
-import Protected from "./components/Protected";
 
 const router = createBrowserRouter([
 	{
@@ -23,14 +22,7 @@ const router = createBrowserRouter([
 
 		children: [
 			{ index: true, element: <App /> },
-			{
-				path: "/checkout",
-				element: (
-					<Protected>
-						<CheckoutPage />
-					</Protected>
-				),
-			},
+
 			{
 				path: "/book/:bookId",
 				element: <BookPage />,

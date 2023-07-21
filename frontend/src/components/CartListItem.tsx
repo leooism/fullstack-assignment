@@ -37,7 +37,7 @@ const CartListItem = (props: CartListItemPropsType) => {
 			await axios.post(
 				`http://localhost:8000/cart/updateCartItem/${props.id}`,
 				{
-					quantity: 1,
+					quantity: -1,
 				},
 				{
 					withCredentials: true,

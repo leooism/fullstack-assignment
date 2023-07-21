@@ -88,7 +88,7 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 				<div className="flex gap-2 items-center">
 					<Button
 						text="Log In"
-						style="px-1 py-2 text-[10px] w-10 hover:bg-gradient-to-l from-red-500 to-blue-500 hover:text-white "
+						style="px-1 py-2 md:p-2 md:w-32 md:text-sm text-[10px] w-10 hover:bg-gradient-to-l from-red-500 to-blue-500 hover:text-white "
 						buttonClickHandler={() => {
 							navigate("/login");
 						}}
@@ -96,7 +96,7 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 
 					<Button
 						text="Sign Up"
-						style="px-1 py-2  text-[10px]  w-12 bg-gradient-to-r from-green-500 to-yellow-500 text-white"
+						style="px-1 py-2 md:p-2 md:w-32 md:text-sm text-[10px]  w-12 bg-gradient-to-r from-green-500 to-yellow-500 text-white"
 						buttonClickHandler={() => {
 							navigate("/signup");
 						}}

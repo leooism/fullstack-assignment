@@ -19,7 +19,7 @@ const Authors = () => {
 								navigate(`/author/${book.ISBN}`);
 							}}
 						>
-							<div className="w-32 h-32 md:w-60 md:h-60 rounded-full  shadow-xl">
+							<div className="w-32 h-32 md:w-48 md:h-48 rounded-full  shadow-xl">
 								<img
 									src={book.img}
 									alt={book.author}

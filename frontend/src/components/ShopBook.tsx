@@ -12,7 +12,7 @@ const ShopBook = () => {
 			<h1 className="text-2xl text-gray-900">Books</h1>
 			<div
 				ref={divScrollRef}
-				className="flex  py-2 w-full overflow-x-scroll scrollbar-hide  px-2   gap-2"
+				className="flex  py-2 w-full overflow-x-scroll scrollbar-hide  px-2   gap-2 transition-all ease-linear duration-300"
 			>
 				{books ? (
 					books.map((book) => (
@@ -31,26 +31,28 @@ const ShopBook = () => {
 					<p>No items</p>
 				)}
 			</div>
-			<div className="absolute flex w-full justify-between z-50">
-				<div className="bg-white p-2 rounded-full">
-					<FcPrevious
-						className="text-white"
-						onClick={() => {
-							divScrollRef.scroll({
-								behaviour: "smooth",
-							});
-						}}
-					/>
+			<div className="absolute flex w-full justify-between   ">
+				<div
+					className="bg-gray-200 p-2 rounded-full z-10 "
+					onClick={() => {
+						divScrollRef.scroll({
+							behaviour: "smooth",
+							left: -10,
+						});
+					}}
+				>
+					<FcPrevious className="text-white" />
 				</div>
-				<div className="bg-white p-2 rounded-full">
-					<FcNext
-						className="text-white"
-						onClick={() => {
-							divScrollRef.current.scroll({
-								behaviour: "smooth",
-							});
-						}}
-					/>
+				<div
+					className="bg-white p-2 rounded-full z-10"
+					onClick={() => {
+						divScrollRef.current.scrollBy({
+							behaviour: "smooth",
+							left: divScrollRef.current.getBoundingClientRect().width,
+						});
+					}}
+				>
+					<FcNext className="text-white" />
 				</div>
 			</div>
 		</div>

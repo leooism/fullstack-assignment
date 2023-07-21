@@ -4,6 +4,7 @@ import { selectCartBook } from "../../store/BookStore";
 import { useSelector } from "react-redux";
 import type { CartBookType } from "../../store/BookStore";
 import calculateTotalAmount from "../../util/getTotalAmount";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 type CartPropsType = {
@@ -47,8 +48,21 @@ const Cart = (props: CartPropsType) => {
 				/>
 				<Button
 					text="Checkout"
-					buttonClickHandler={() => {
-						navigate("/checkout");
+					buttonClickHandler={async () => {
+						try {
+							const response = await axios.post(
+								"http://localhost:8000/create-checkout-session",
+								{
+									items: cartBook.map((book) => book.id),
+								},
+								{
+									withCredentials: true,
+								}
+							);
+							window.location = response.data.url;
+						} catch (error) {
+							console.log(error);
+						}
 					}}
 					style="p-1 bg-[#F8CD0F] text-white text-sm"
 					disabled={cartBook.length === 0 ? true : false}
