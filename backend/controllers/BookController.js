@@ -86,6 +86,9 @@ const getBook = catchAsync(async (req, res, next) => {
 	// });
 	const book = await prisma.book.findUniqueOrThrow({
 		where: { id: id },
+		include: {
+			reviews: true,
+		},
 	});
 
 	res.status(200).json({

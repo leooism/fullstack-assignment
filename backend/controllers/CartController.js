@@ -49,7 +49,7 @@ module.exports.addItemToCart = catchAsync(async (req, res, next) => {
 	if (itemAlreadyInCart) {
 		const data = await prisma.ShoppingCartItem.update({
 			where: {
-				book_id: req.body.book_id,
+				id: itemAlreadyInCart.id,
 			},
 			data: {
 				quantity: itemAlreadyInCart.quantity + 1,
@@ -80,6 +80,7 @@ module.exports.addItemToCart = catchAsync(async (req, res, next) => {
 
 module.exports.updateCartItem = catchAsync(async (req, res, next) => {
 	const itemId = req.params.cartItem;
+
 	const item = await prisma.ShoppingCartItem.findUnique({
 		where: {
 			book_id: itemId,
@@ -87,7 +88,7 @@ module.exports.updateCartItem = catchAsync(async (req, res, next) => {
 	});
 
 	if (!item) return next(new AppError("No item with this id", 404));
-	const quantity = item.quantity + 1;
+	const quantity = item.quantity;
 
 	item.quantity = quantity;
 	const updatedItem = await item.save();

@@ -49,8 +49,8 @@ model Reviews {
   id String @id @default(uuid())
   book_id String
   review_text String
-  book Book @relation(fields: [book_id], references: [id])
   user_id String
+  book Book @relation(fields: [book_id], references: [id])
   user User? @relation(fields: [user_id], references: [id])
 }
 
