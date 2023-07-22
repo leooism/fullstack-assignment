@@ -44,7 +44,7 @@ const prisma = new PrismaClient().$extends({
 					include: {
 						cart: {
 							include: {
-								shoppingCartItem: true,
+								cartItem: true,
 							},
 						},
 					},

@@ -93,7 +93,11 @@ const getBook = catchAsync(async (req, res, next) => {
 	const book = await prisma.book.findUniqueOrThrow({
 		where: { id: id },
 		include: {
-			reviews: true,
+			reviews: {
+				include: {
+					user: true,
+				},
+			},
 		},
 	});
 
@@ -163,4 +167,28 @@ const updateBook = catchAsync(async (req, res, next) => {
 	});
 });
 
-module.exports = { getAllBook, getBook, deleteBook, updateBook, addBook };
+const addReview = catchAsync(async (req, res, next) => {
+	const review = {
+		book_id: req.body.book_id,
+		user_id: req.user.id,
+		review_text: req.body.review_text,
+	};
+	await prisma.reviews.create({
+		data: review,
+		include: {
+			book: true,
+		},
+	});
+	return res.status(200).json({
+		message: "Sucessful",
+	});
+});
+
+module.exports = {
+	getAllBook,
+	getBook,
+	deleteBook,
+	updateBook,
+	addBook,
+	addReview,
+};

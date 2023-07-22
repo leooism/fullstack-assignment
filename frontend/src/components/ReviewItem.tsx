@@ -10,9 +10,9 @@ const ReviewItem = ({ name, img, message }: ReviewItemType) => {
 		<div className="flex flex-col p-2 rounded-lg border border-b-zinc-300 ">
 			<div className="flex gap-2">
 				<Avatar />
-				<h1>{name}</h1>
+				<h1 className="text-sm font-semibold text-gray-900">{name}</h1>
 			</div>
-			<p>{message}</p>
+			<p className="text-xs text-gray-500 ml-10 font-light">{message}</p>
 		</div>
 	);
 };

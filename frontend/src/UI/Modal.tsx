@@ -28,6 +28,11 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 
 	const filterSubmitHandler = async (e: React.ClickEvent) => {
 		e.preventDefault();
+		/* f_name=${
+				authorInputValue.split(" ")[0]
+			}&l_name=${
+				authorInputValue.split(" ")[1] ? authorInputValue.split(" ")[1] : ""
+			} */
 		const responseData = await axios.get(
 			`http://localhost:8000/books?genre=${genreInputValue}&sort=${sortByInputValue}&price[gte]=${priceMinInputValue}&price[lte]=${priceMaxInputValue}`
 		);

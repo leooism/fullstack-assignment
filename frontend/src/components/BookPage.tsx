@@ -21,8 +21,22 @@ const BookPage = () => {
 
 		fetchData();
 	}, [bookId, setData]);
+	const [reviewInputValue, setReviewInputValue] = useState("");
 	// fetchData((data) => setData(data.data.data))
+	const reviewSubmitHandler = async () => {
+		await axios.post(
+			"http://localhost:8000/books/review",
+			{
+				book_id: bookId,
+				review_text: reviewInputValue,
+			},
+			{
+				withCredentials: true,
+			}
+		);
 
+		setReviewInputValue("");
+	};
 	return (
 		<>
 			{data && (
@@ -73,25 +87,34 @@ const BookPage = () => {
 						<div className="pb-2 flex flex-col gap-4 border-b-slate-400 border-b ">
 							<h1 className="md:text-2xl font-semibold capitalize">Reviews</h1>
 							{userDetail.email && (
-								<div className="flex flex-col gap-2 ">
+								<form
+									className="flex flex-col gap-2 "
+									onSubmit={reviewSubmitHandler}
+								>
 									<textarea
 										placeholder="Write your reivew "
 										className="border w-full p-2 h-full"
+										value={reviewInputValue}
+										onChange={(e) => setReviewInputValue(e.target.value)}
 									/>
-									<Button
-										text="Submit"
-										style="md:p-2  md:text-xl bg-blue-500 text-white"
-										buttonClickHandler={() => {
-											console.log("first");
+									<button
+										type="Submit"
+										className="md:p-2 w-32 rounded-lg text-sm p-2  md:text-xl bg-blue-500 text-white"
+										onClick={(e) => {
+											e.preventDefault();
+											if (e.target.value.trim() === "") return;
+											reviewSubmitHandler();
 										}}
-									/>
-								</div>
+									>
+										Submit
+									</button>
+								</form>
 							)}
 							<div className="font-light text-2xl  flex flex-col gap-3 w-fit max-h-[400px] overflow-y-scroll scrollbar-hide">
 								{data.reviews.map((review) => (
 									<ReviewItem
-										name="Bidhan Bhandari"
-										message="lorem is the best thing in the world"
+										name={`${review.user["f_name"]} ${review.user["l_name"]}`}
+										message={review.review_text}
 									/>
 								))}
 							</div>

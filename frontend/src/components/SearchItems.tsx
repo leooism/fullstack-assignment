@@ -10,6 +10,7 @@ const SearchItems = () => {
 
 	return (
 		<div className="flex flex-col items-center justify-between gap-4">
+			<h1 className="text-xl font-semibold">Results</h1>
 			{booksData.map((data, _i) => (
 				<div
 					className="flex shadow-lg gap-2  p-2 items-center justify-center rounded-lg"
