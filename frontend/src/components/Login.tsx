@@ -86,7 +86,7 @@ const LoginForm = () => {
 	const renderItem =
 		screen === "login" ? (
 			<>
-				<div className="mx-auto bg-white shadow-2xl  animate-pulse  rounded-md flex  p-4 items-center justify-between w-[50%] md:w-[30%] text-gray-900">
+				<div className="mx-auto bg-white shadow-2xl  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  rounded-md flex  p-4 items-center  w-[50%] md:w-[30%] text-gray-900">
 					<form
 						action="post"
 						className="flex flex-col  justify-center w-full "

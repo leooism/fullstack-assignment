@@ -52,7 +52,7 @@ module.exports.addItemToCart = catchAsync(async (req, res, next) => {
 				id: itemAlreadyInCart.id,
 			},
 			data: {
-				quantity: itemAlreadyInCart.quantity + 1,
+				quantity: itemAlreadyInCart.quantity + +req.body.quantity,
 			},
 		});
 		return res.status(200).json({
@@ -88,9 +88,18 @@ module.exports.updateCartItem = catchAsync(async (req, res, next) => {
 	});
 
 	if (!item) return next(new AppError("No item with this id", 404));
-	const quantity = item.quantity;
+	const quantity = item.quantity + +req.body.quantity;
 
 	item.quantity = quantity;
+	if (quantity <= 0) {
+		await prisma.ShoppingCartItem.delete({
+			where: {
+				id: item.id,
+			},
+		});
+		return res.status(200).json({ status: "sucessful" });
+	}
+
 	const updatedItem = await item.save();
 
 	res.status(200).json({

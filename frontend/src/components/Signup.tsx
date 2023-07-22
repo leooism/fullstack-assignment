@@ -82,7 +82,7 @@ const Signup = () => {
 						/> */}
 					</div>
 				))}
-			<div className="mx-auto bg-white shadow-lg  rounded-md flex  p-4 items-center justify-between w-[70%] md:w-[33%]">
+			<div className="mx-auto mt-2  bg-white shadow-lg  rounded-md flex  p-4 items-center justify-between w-[70%] md:w-[33%]">
 				<form
 					action="post"
 					className="flex flex-col gap-2  justify-center w-full"
@@ -178,7 +178,7 @@ const Signup = () => {
 						<a href="#" className="text-gray-600 text-sm">
 							Forgot Password?
 						</a>
-						<Button text="Sign up" style="p-2 bg-yellow-200 text-white" />
+						<Button text="Sign up" style="p-2 bg-yellow-300 text-white " />
 					</div>
 					<div className="mt-1 flex justify-center  gap-2  items-center ">
 						<a

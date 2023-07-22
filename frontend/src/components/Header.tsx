@@ -4,13 +4,14 @@ import { FaSearchengin } from "react-icons/fa6";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
-import useHttp from "../hooks/use-http";
 
 import Avatar from "../UI/Avatar";
 import { SetStateAction, useState } from "react";
 import Cart from "./Cart";
 import { selectCartBook, addItemToBookStore } from "../../store/BookStore";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 type HeaderPropsType = {
 	loggedInStatus: boolean;
 	onshowModalHandler: () => void;
@@ -20,27 +21,41 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 	const [showUserProfile, setUserProfile] = useState(false);
 	const showCartHandler = (): void => setShowCart((prev) => !prev);
 	const cartBook = useSelector(selectCartBook);
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const [inputValue, setInputValue] = useState("");
 	const inputValueChangeHandler = (e: {
 		target: { value: SetStateAction<string> };
 	}) => {
 		setInputValue(e.target.value);
 	};
-	const { fetchData } = useHttp("http://localhost:8000/books");
+	const searchInputHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const responseData = await axios.get(
+			`http://localhost:8000/books?title=${inputValue}`
+		);
 
-	// const searchInputHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
-	// 	if (inputValue.trim() === "") return;
-	// 	// const data = await fetchData(
-	// 	// 	`http://localhost:8000/books?title=${inputValue}`
-	// 	// );
-	// 	if (data) dispatch(addItemToBookStore(data.data.allBooks));
-	// 	setInputValue("");
-	// };
-
+		const booksData = await responseData.data.books;
+		if (booksData.length === 0) return;
+		dispatch(
+			addItemToBookStore(
+				booksData.map((book) => ({
+					id: book.id,
+					title: book.title,
+					ISBN: book.isbn,
+					price: book.price,
+					availability: book.availability,
+					img: book.book_img,
+					genre: book.genre,
+					type: book.type,
+					ratings: book.ratings,
+					// author: `${book.author["f_name"]} ${book.author["l_name"]}`,
+				}))
+			)
+		);
+		setInputValue("");
+		navigate("/s");
+	};
 	return (
 		<div className="flex w-full items-center  justify-between  gap-2    z-30 bg-white  border  shadow-2xl">
 			<div
@@ -57,11 +72,11 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 				<h1 className="text-[9px]   font-serif font-extrabold">KitabiGyan</h1>
 			</div>
 
-			{loggedInStatus && (
+			{
 				<div className=" flex gap-2">
 					<form
 						className=" flex  gap-2 flex-row  items-center border p-2  rounded-lg justify-between"
-						// onSubmit={searchInputHandler}
+						onSubmit={searchInputHandler}
 					>
 						<input
 							value={inputValue}
@@ -82,7 +97,7 @@ const Header = ({ loggedInStatus, onshowModalHandler }: HeaderPropsType) => {
 						/>
 					</div>
 				</div>
-			)}
+			}
 
 			{!loggedInStatus ? (
 				<div className="flex gap-2 items-center">

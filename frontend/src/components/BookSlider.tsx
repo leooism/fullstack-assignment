@@ -17,6 +17,7 @@ const BookSlider = () => {
 			slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
 		});
 	}, [currentSlide]);
+	
 	useEffect(() => {
 		const unSubscribeTimeout = setInterval(() => {
 			nextSlideHandler();

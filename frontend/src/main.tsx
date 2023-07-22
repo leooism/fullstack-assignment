@@ -13,27 +13,24 @@ import BookPage from "./components/BookPage.tsx";
 import AdminLogin from "./components/AdminLogin.tsx";
 import AdminLayout from "./components/AdminLayout.tsx";
 import Signup from "./components/Signup";
+import SearchItems from "./components/SearchItems";
 import Admin from "./components/Admin.tsx";
 
+import { loader } from "./components/Loader";
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <PageLayout />,
-
 		children: [
 			{ index: true, element: <App /> },
+			{
+				path: "/s",
+				element: <SearchItems />,
+			},
 
 			{
 				path: "/book/:bookId",
 				element: <BookPage />,
-			},
-			{
-				path: "/login",
-				element: <LoginForm />,
-			},
-			{
-				path: "/signup",
-				element: <Signup />,
 			},
 		],
 	},
@@ -51,6 +48,14 @@ const router = createBrowserRouter([
 				element: <AdminLogin />,
 			},
 		],
+	},
+	{
+		path: "/login",
+		element: <LoginForm />,
+	},
+	{
+		path: "/signup",
+		element: <Signup />,
 	},
 	{
 		path: "*",

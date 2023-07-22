@@ -42,7 +42,7 @@ module.exports.checkout = catchAsync(async (req, res, next) => {
 		line_items: await Promise.all(line_items),
 		mode: "payment",
 		success_url: `${process.env.CLIENT_URL}/success.html`,
-		cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+		cancel_url: `${process.env.CLIENT_URL}/`,
 	});
 	res.status(200).json({ url: session.url });
 });

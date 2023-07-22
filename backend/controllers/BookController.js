@@ -6,6 +6,7 @@ const catchAsync = (fn) => (req, res, next) =>
 
 const getAllBook = catchAsync(async (req, res, next) => {
 	let queryObject = { ...req.query };
+	console.log(queryObject);
 	//Converting req.queury to meaningful objects for filtering
 	["sort", "page", "fields", "limit"].forEach((dat) => delete queryObject[dat]);
 
@@ -62,7 +63,12 @@ const getAllBook = catchAsync(async (req, res, next) => {
 
 	///Aliasing -> top 5 books and so on
 
-	if (allBooks.length === 0) return next(new AppError("No result found", 201));
+	if (allBooks.length === 0)
+		return res.json({
+			status: "Ok",
+			message: "No books found",
+			books: [],
+		});
 
 	return res.json({
 		status: "Ok",

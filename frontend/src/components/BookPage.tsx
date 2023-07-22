@@ -4,21 +4,8 @@ import Button from "../UI/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { AiTwotoneStar } from "react-icons/ai";
 import { user } from "../../store/BookStore";
-import { BiSolidStarHalf } from "react-icons/bi";
-
-function displayRatings(ratingNumber) {
-	const stars = [];
-	const filledStars = Math.floor(ratingNumber);
-	for (let i = 0; i < filledStars; i++) {
-		stars.push(<AiTwotoneStar />);
-	}
-	if (ratingNumber - filledStars > 0) {
-		stars.push(<BiSolidStarHalf />);
-	}
-	return stars;
-}
+import displayRatings from "../../util/displayRatings";
 
 const BookPage = () => {
 	const { bookId } = useParams();

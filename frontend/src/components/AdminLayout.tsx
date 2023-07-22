@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import Button from "../UI/Button";

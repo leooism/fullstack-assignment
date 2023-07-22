@@ -1,9 +1,14 @@
 import ReactDOM from "react-dom";
 import Button from "../UI/Button";
+import { useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addItemToBookStore } from "../../store/BookStore";
 const BackDrop = (props: { onshowModalHandler: () => void }) => {
 	return (
 		<div
-			className="w-[100%] h-[100vh] bg-gray-300 fixed absolute top-0 left-0 z-40 opacity-60"
+			className="w-[100%] h-[100vh] bg-gray-300  absolute top-0 left-0 z-40 opacity-60"
 			onClick={() => {
 				props.onshowModalHandler();
 			}}
@@ -12,10 +17,47 @@ const BackDrop = (props: { onshowModalHandler: () => void }) => {
 };
 
 const Modal = (props: { onshowModalHandler: () => void }) => {
-	const filterSubmitHandler = (e: React.HTMLFormElement) => {
+	const [authorInputValue, setAuthorInputValue] = useState("");
+	const [genreInputValue, setGenreInputValue] = useState("");
+	const [priceMaxInputValue, setPriceMaxInputValue] = useState(200);
+	const [priceMinInputValue, setPriceMinInputValue] = useState(1);
+	const [sortByInputValue, setSortByInputValue] = useState("price");
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const filterSubmitHandler = async (e: React.ClickEvent) => {
 		e.preventDefault();
+		const responseData = await axios.get(
+			`http://localhost:8000/books?genre=${genreInputValue}&sort=${sortByInputValue}&price[gte]=${priceMinInputValue}&price[lte]=${priceMaxInputValue}`
+		);
+
+		const booksData = await responseData.data.books;
+		if (booksData.length === 0) return;
+		dispatch(
+			addItemToBookStore(
+				booksData.map((book) => ({
+					id: book.id,
+					title: book.title,
+					ISBN: book.isbn,
+					price: book.price,
+					availability: book.availability,
+					img: book.book_img,
+					genre: book.genre,
+					type: book.type,
+					ratings: book.ratings,
+					// author: `${book.author["f_name"]} ${book.author["l_name"]}`,
+				}))
+			)
+		);
+		setAuthorInputValue("");
+		setGenreInputValue("");
+		setPriceMaxInputValue("");
+		setPriceMinInputValue("");
+		setSortByInputValue("price");
+		props.onshowModalHandler();
+		navigate("/s");
 	};
-	console.log(props);
 	return (
 		<>
 			{ReactDOM.createPortal(
@@ -35,28 +77,32 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 							<div className="flex justify-around">
 								<div className="flex flex-col">
 									<label
-										htmlFor="email"
+										htmlFor="genre"
 										className="text-gray-900 mb-2 font-semibold "
 									>
 										Genre
 									</label>
 									<input
-										type="email"
-										name="email"
+										value={genreInputValue}
+										onChange={(e) => setGenreInputValue(e.target.value)}
+										type="text"
+										name="genre"
 										className="w-32 border-2 rounded-lg p-2 border-gray-400 outline-none text-gray-400 font-semibold "
 										id="email"
 									/>
 								</div>
 								<div className=" flex flex-col">
 									<label
-										htmlFor="email"
+										htmlFor="author"
 										className="text-gray-900 mb-2 font-semibold "
 									>
 										Author
 									</label>
 									<input
-										type="email"
-										name="email"
+										value={authorInputValue}
+										onChange={(e) => setAuthorInputValue(e.target.value)}
+										type="text"
+										name="author"
 										className="w-32 border-2 rounded-lg p-2 border-gray-400 outline-none text-gray-400 font-semibold "
 										id="email"
 									/>
@@ -68,15 +114,19 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 								</p>
 								<div className="flex flex-row justify-around">
 									<input
+										value={priceMinInputValue}
+										onChange={(e) => setPriceMinInputValue(+e.target.value)}
 										type="number"
-										name="email"
+										name="minPrice"
 										placeholder="Min Price"
 										className="w-32 border-2 rounded-lg p-2 border-gray-400 outline-none text-gray-400 font-semibold "
 									/>
 									<input
+										value={priceMaxInputValue}
+										onChange={(e) => setPriceMaxInputValue(e.target.value)}
 										type="number"
-										name="email"
-										placeholder="Min Price"
+										name="min price"
+										placeholder="Max Price"
 										className="w-32 border-2 rounded-lg p-2 border-gray-400 outline-none text-gray-400 font-semibold "
 									/>
 								</div>
@@ -86,7 +136,11 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 								<select
 									name="SortBy"
 									id="sb"
+									value={sortByInputValue}
 									className="border-2 p-2 outline-none border-x-gray-400 rounded-lg w-32 mb-2"
+									onChange={(e) => {
+										setSortByInputValue(e.target.value);
+									}}
 								>
 									<option value="price">Price</option>
 									<option value="ratings">Ratings</option>
@@ -99,10 +153,12 @@ const Modal = (props: { onshowModalHandler: () => void }) => {
 									style="p-2  w-32 mx-auto bg-red-400 shadow-lg text-white uppercase hover:shadow-3xl hover:scale-110 transition"
 									buttonClickHandler={props.onshowModalHandler}
 								/>
-								<Button
-									text="Apply"
-									style="p-2  w-32 mx-auto bg-blue-400 shadow-lg text-white uppercase hover:shadow-3xl hover:scale-110 transition"
-								/>
+								<button
+									type="submit"
+									className="p-2  w-32 mx-auto bg-blue-400 rounded-lg shadow-lg text-white uppercase hover:shadow-3xl hover:scale-110 transition"
+								>
+									Apply
+								</button>
 							</div>
 						</form>{" "}
 					</div>
